@@ -7,7 +7,7 @@ export async function GET() {
   try {
     await client.connect();
     const { rows } = await client.query(
-      "SELECT * FROM content WHERE label IN ('homeheading', 'homeimage')"
+      "SELECT * FROM content WHERE label IN ('homeheading', 'homeimage', 'hometext')"
     );
 
     if (rows.length === 0) {

@@ -4,7 +4,11 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Home() {
-  const [content, setContent] = useState<{ homeheading: string; homeimage: string } | null>(null);
+  const [content, setContent] = useState<{
+    homeheading: string;
+    homeimage: string;
+    hometext: string;
+  } | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -61,11 +65,12 @@ export default function Home() {
           </button>
         </header>
       )}
-      <h1 className="text-4xl font-bold mb-4 mt-20">{content.homeheading || 'Hello'}</h1>
+      <h1 className="text-4xl font-bold mb-4 mt-20">{content.homeheading}</h1>
+      <p className="text-lg mb-6 max-w-xl">{content.hometext}</p>
       {content.homeimage && (
         <img
-          src={content.homeimage || '/fallback.jpg'}
-          alt="Home"
+          src={content.homeimage}
+          alt="Home Image"
           className="w-[500px] max-w-full"
         />
       )}

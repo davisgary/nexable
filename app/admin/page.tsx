@@ -8,7 +8,9 @@ import Link from "next/link";
 export default function AdminPage() {
   const router = useRouter();
   const [homeHeading, setHomeHeading] = useState('');
+  const [homeText, setHomeText] = useState('');
   const [homeImage, setHomeImage] = useState('');
+  const [headingSuccessMessage, setHeadingSuccessMessage] = useState('');
   const [textSuccessMessage, setTextSuccessMessage] = useState('');
   const [imageSuccessMessage, setImageSuccessMessage] = useState('');
   const [loading, setLoading] = useState(true);
@@ -28,6 +30,7 @@ export default function AdminPage() {
         const content = await contentRes.json();
 
         if (content?.homeheading) setHomeHeading(content.homeheading);
+        if (content?.hometext) setHomeText(content.hometext);
         if (content?.homeimage) setHomeImage(content.homeimage);
 
         setLoading(false);
@@ -47,9 +50,22 @@ export default function AdminPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ label: 'homeheading', value: homeHeading }),
       });
-      setTextSuccessMessage('Home Heading Updated!');
+      setHeadingSuccessMessage('Home Heading Updated!');
     } catch (error) {
-      console.error('Error updating text:', error);
+      console.error('Error updating heading:', error);
+    }
+  };
+
+  const handleSaveHomeText = async () => {
+    try {
+      await fetch('/api/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ label: 'hometext', value: homeText }),
+      });
+      setTextSuccessMessage('Home Text Updated!');
+    } catch (error) {
+      console.error('Error updating home text:', error);
     }
   };
 
@@ -76,7 +92,7 @@ export default function AdminPage() {
     } catch (err) {
       console.error('Logout failed:', err);
     }
-  };  
+  };
 
   if (loading) return null;
 
@@ -97,9 +113,9 @@ export default function AdminPage() {
         <h1 className="text-3xl font-semibold mb-8 text-center">Admin Dashboard</h1>
         <div className="mb-10">
           <h2 className="text-xl font-medium mb-4">Edit Home Heading</h2>
-          {textSuccessMessage && (
+          {headingSuccessMessage && (
             <div className="flex items-center gap-2 mb-4 text-green-600 text-sm font-semibold">
-              <span>✅</span><span>{textSuccessMessage}</span>
+              <span>✅</span><span>{headingSuccessMessage}</span>
             </div>
           )}
           <input
@@ -107,7 +123,7 @@ export default function AdminPage() {
             value={homeHeading}
             onChange={(e) => {
               setHomeHeading(e.target.value);
-              setTextSuccessMessage('');
+              setHeadingSuccessMessage('');
             }}
             className="w-full px-4 py-2 mb-4 bg-main border border-primary/30 rounded-md focus:outline-none focus:border-primary/50"
           />
@@ -117,6 +133,31 @@ export default function AdminPage() {
               className="bg-primary hover:bg-primary/80 text-main text-sm font-medium py-2 px-4 rounded-md transition duration-300"
             >
               Save Heading
+            </button>
+          </div>
+        </div>
+        <div className="mb-10">
+          <h2 className="text-xl font-medium mb-4">Edit Home Text</h2>
+          {textSuccessMessage && (
+            <div className="flex items-center gap-2 mb-4 text-green-600 text-sm font-semibold">
+              <span>✅</span><span>{textSuccessMessage}</span>
+            </div>
+          )}
+          <textarea
+            value={homeText}
+            onChange={(e) => {
+              setHomeText(e.target.value);
+              setTextSuccessMessage('');
+            }}
+            rows={4}
+            className="w-full px-4 py-2 mb-4 bg-main border border-primary/30 rounded-md focus:outline-none focus:border-primary/50"
+          />
+          <div className="flex justify-end">
+            <button
+              onClick={handleSaveHomeText}
+              className="bg-primary hover:bg-primary/80 text-main text-sm font-medium py-2 px-4 rounded-md transition duration-300"
+            >
+              Save Text
             </button>
           </div>
         </div>
