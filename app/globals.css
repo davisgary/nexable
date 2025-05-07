@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --main: 0 0% 98%;
+    --primary: 0 0% 9%;
+    --secondary: 0 0% 93%;
+    --muted: 0 0% 88%;
+    --accent: 201 96% 32%;
+    --brand: 30 100% 50%;
+    --success: 120 100% 40%;
+    --warning: 39 100% 50%;
+    --danger: 0 75% 50%;
+    --shadow: 0 0 4px rgba(0,0,0,0.2);
+  }
+
+  .dark {
+    --main: 0 0% 2%;
+    --primary: 0 0% 100%;
+    --secondary: 0 0% 10%;
+    --muted: 0 0% 20%;
+    --accent: 199 89% 48%;
+    --brand: 30 100% 60%;
+    --success: 120 100% 40%;
+    --warning: 39 100% 50%;
+    --danger: 0 100% 61%;
+    --shadow: 0 0 4px rgba(255,255,255,0.2);
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-main text-primary;
+    font-family: 'Inter', sans-serif;
+  }
+}
